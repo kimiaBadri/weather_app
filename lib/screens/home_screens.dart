@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/constans.dart/constans.dart';
@@ -44,16 +43,10 @@ class _HommePageState extends State<HommePage> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(
-                        width: 350,
+                        width: 356,
                         height: 350,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Color.fromRGBO(255, 255, 255, 0.2),
-                                Color.fromRGBO(255, 255, 255, 0.2),
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter),
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
                           borderRadius: BorderRadius.all(
                             Radius.circular(20),
                           ),
@@ -62,9 +55,84 @@ class _HommePageState extends State<HommePage> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 380, left: 70, right: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, right: 50),
+                    child: Row(
+                      children: [
+                        Text('Today,',
+                            style: Theme.of(context).textTheme.bodySmall),
+                        Text('12 september',
+                            style: Theme.of(context).textTheme.bodySmall)
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text('29°', style: Theme.of(context).textTheme.bodyLarge),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 60, right: 90),
+                    child: Text('Cloudy',
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  ),
+                  SizedBox(
+                    height: 36,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset('assets/images/windy.png'),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        'Wind',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      SizedBox(
+                        width: 35,
+                      ),
+                      Text('|', style: Theme.of(context).textTheme.bodySmall),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text('10Km/h',
+                          style: Theme.of(context).textTheme.bodySmall),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset('assets/images/hum.png'),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        'Hum',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text('|', style: Theme.of(context).textTheme.bodySmall),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text('54 %',
+                          style: Theme.of(context).textTheme.bodySmall),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
