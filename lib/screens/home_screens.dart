@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/constans.dart/constans.dart';
+import 'package:weather_app/screens/data/model/data_model.dart';
 
 class HommePage extends StatefulWidget {
   const HommePage({super.key});
@@ -38,7 +40,7 @@ class _HommePageState extends State<HommePage> {
                 _getBarItems(),
                 _getWeatherIcon(),
                 Padding(
-                  padding: const EdgeInsets.only(top: 80),
+                  padding: const EdgeInsets.only(top: 60),
                   child: ClipRRect(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -58,83 +60,119 @@ class _HommePageState extends State<HommePage> {
                 ),
               ],
             ),
+            _getWeatherContainer(),
             Padding(
-              padding: EdgeInsets.only(top: 380, left: 70, right: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40, right: 50),
-                    child: Row(
-                      children: [
-                        Text('Today,',
-                            style: Theme.of(context).textTheme.bodySmall),
-                        Text('12 september',
-                            style: Theme.of(context).textTheme.bodySmall)
-                      ],
+              padding: EdgeInsets.only(top: 740, left: 110, right: 100),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text('29°', style: Theme.of(context).textTheme.bodyLarge),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 60, right: 90),
-                    child: Text('Cloudy',
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ),
-                  SizedBox(
-                    height: 36,
-                  ),
-                  Row(
-                    children: [
-                      Image.asset('assets/images/windy.png'),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text(
-                        'Wind',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      SizedBox(
-                        width: 35,
-                      ),
-                      Text('|', style: Theme.of(context).textTheme.bodySmall),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text('10Km/h',
-                          style: Theme.of(context).textTheme.bodySmall),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Image.asset('assets/images/hum.png'),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text(
-                        'Hum',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text('|', style: Theme.of(context).textTheme.bodySmall),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text('54 %',
-                          style: Theme.of(context).textTheme.bodySmall),
-                    ],
-                  ),
-                ],
+                  minimumSize: Size(300, 60),
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  sendRequestCurrentWeather();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Forecast report',
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 16, fontFamily: 'IR'),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_up,
+                      color: Colors.black,
+                    )
+                  ],
+                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _getWeatherContainer() {
+    return Padding(
+      padding: EdgeInsets.only(top: 365, left: 70, right: 40),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 40, right: 50),
+            child: Row(
+              children: [
+                Text('Today,', style: Theme.of(context).textTheme.bodySmall),
+                Text('12 september',
+                    style: Theme.of(context).textTheme.bodySmall)
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Text('29°', style: Theme.of(context).textTheme.bodyLarge),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 60, right: 90),
+            child:
+                Text('Cloudy', style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          SizedBox(
+            height: 36,
+          ),
+          Row(
+            children: [
+              Image.asset('assets/images/windy.png'),
+              SizedBox(
+                width: 40,
+              ),
+              Text(
+                'Wind',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              SizedBox(
+                width: 35,
+              ),
+              Text('|', style: Theme.of(context).textTheme.bodySmall),
+              SizedBox(
+                width: 40,
+              ),
+              Text('10Km/h', style: Theme.of(context).textTheme.bodySmall),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              Image.asset('assets/images/hum.png'),
+              SizedBox(
+                width: 40,
+              ),
+              Text(
+                'Hum',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              SizedBox(
+                width: 40,
+              ),
+              Text('|', style: Theme.of(context).textTheme.bodySmall),
+              SizedBox(
+                width: 40,
+              ),
+              Text('54 %', style: Theme.of(context).textTheme.bodySmall),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -156,11 +194,7 @@ class _HommePageState extends State<HommePage> {
       padding: const EdgeInsets.only(top: 44, left: 30, right: 30),
       child: Row(
         children: [
-          Icon(
-            Icons.location_on_outlined,
-            color: Colors.white,
-            size: 26,
-          ),
+          Image.asset('assets/images/map.png'),
           SizedBox(
             width: 16,
           ),
@@ -191,13 +225,20 @@ class _HommePageState extends State<HommePage> {
           SizedBox(
             width: 100,
           ),
-          Icon(
-            Icons.notifications_active_outlined,
-            color: Colors.white,
-            size: 26,
-          ),
+          Image.asset('assets/images/notif.png'),
         ],
       ),
     );
+  }
+
+  void sendRequestCurrentWeather() async {
+    var apiKey = 'e98ccfe766b267bf53655b5c0360a9ba';
+    var cityName = 'tabriz';
+    var response = await Dio().get(
+        'https://api.openweathermap.org/data/2.5/weather',
+        queryParameters: {'q': cityName, 'appid': apiKey, 'units': 'metric'});
+    var jsonMapObject = response.data; // به ما یدونه مپ میده
+    var dataModel = DataModel.fromJson(jsonMapObject);
+    print(dataModel.dt);
   }
 }
